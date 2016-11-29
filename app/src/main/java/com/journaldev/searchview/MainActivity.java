@@ -4,8 +4,12 @@ import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 
 import com.journaldev.searchview.databinding.ActivityMainBinding;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,23 +22,42 @@ public class MainActivity extends AppCompatActivity {
 
     private List<String> arrayList= new ArrayList<>();
 
+    private String[] wordStrings, detailStrings;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        arrayList.add("January");
-        arrayList.add("February");
-        arrayList.add("March");
-        arrayList.add("April");
-        arrayList.add("May");
-        arrayList.add("June");
-        arrayList.add("July");
-        arrayList.add("August");
-        arrayList.add("September");
-        arrayList.add("October");
-        arrayList.add("November");
-        arrayList.add("December");
+        try {
+
+            SynWord synWord = new SynWord(MainActivity.this);
+            synWord.execute();
+
+            String s = synWord.get();
+            Log.d("wordV1", "JSON ==> " + s);
+
+            JSONArray jsonArray = new JSONArray(s);
+
+            wordStrings = new String[jsonArray.length()];
+            detailStrings = new String[jsonArray.length()];
+
+            for (int i=0;i<jsonArray.length();i++) {
+
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                wordStrings[i] = jsonObject.getString("Word");
+                detailStrings[i] = jsonObject.getString("Detail");
+
+                arrayList.add(wordStrings[i]);
+
+            }   // for
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         adapter= new ListAdapter(arrayList);
         activityMainBinding.listView.setAdapter(adapter);
