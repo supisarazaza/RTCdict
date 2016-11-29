@@ -2,7 +2,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/wallpapers_a_02">
 
         <TextView
             android:id="@+id/stringName"
