@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String[] wordStrings, detailStrings;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
