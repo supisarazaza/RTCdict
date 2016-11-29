@@ -1,10 +1,13 @@
 package com.journaldev.searchview;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 
 import com.journaldev.searchview.databinding.ActivityMainBinding;
 
@@ -62,6 +65,19 @@ public class MainActivity extends AppCompatActivity {
 
         adapter= new ListAdapter(arrayList);
         activityMainBinding.listView.setAdapter(adapter);
+
+        activityMainBinding.listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(MainActivity.this, Detailword.class);
+
+                intent.putExtra("Word", wordStrings[i]);
+                intent.putExtra("Detail", detailStrings[i]);
+
+                startActivity(intent);
+
+            }
+        });
 
         activityMainBinding.search.setActivated(true);
         activityMainBinding.search.setQueryHint("Type your keyword here");
